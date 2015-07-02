@@ -1,9 +1,9 @@
-# Format Microformat
+# GitHub Publish
 
-[![Build Status](https://travis-ci.org/voxpelli/node-format-microformat.svg?branch=master)](https://travis-ci.org/voxpelli/node-format-microformat)
-[![Coverage Status](https://coveralls.io/repos/voxpelli/node-format-microformat/badge.svg)](https://coveralls.io/r/voxpelli/node-format-microformat)
-[![Dependency Status](https://gemnasium.com/voxpelli/node-format-microformat.svg)](https://gemnasium.com/voxpelli/node-format-microformat)
+[![Build Status](https://travis-ci.org/voxpelli/node-github-publish.svg?branch=master)](https://travis-ci.org/voxpelli/node-github-publish)
+[![Coverage Status](https://coveralls.io/repos/voxpelli/node-github-publish/badge.svg)](https://coveralls.io/r/voxpelli/node-github-publish)
+[![Dependency Status](https://gemnasium.com/voxpelli/node-github-publish.svg)](https://gemnasium.com/voxpelli/node-github-publish)
 
-Formats a Microformat JSON representation into eg. a Jekyll post
+Publishes a file to a repository through the GitHub Contents API
 
 Requires io.js or Node 0.12
