@@ -4,7 +4,7 @@
   "license": "MIT",
   "description": "Publishes a file to a repository through the GitHub Contents API",
   "author": "Pelle Wessman <pelle@kodfabrik.se> (http://kodfabrik.se/)",
-  "homepage": "https://github.com/bloglovin/node-github-publish",
+  "homepage": "https://github.com/voxpelli/node-github-publish",
   "repository": {
     "type": "git",
     "url": "git://github.com/voxpelli/node-github-publish.git"
