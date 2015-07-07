@@ -15,27 +15,78 @@ chai.should();
 describe('Formatter', function () {
   var GitHubPublisher = require('../');
 
+  var token;
+  var user;
+  var repo;
+  var file;
+  var content;
+  var base64;
+  var path;
+  var publisher;
+
   beforeEach(function () {
     nock.disableNetConnect();
+
+    token = 'abc123';
+    user = 'username';
+    repo = 'repo';
+    file = 'test.txt';
+    content = 'Morbi leo risus, porta ac consectetur ac, vestibulum at.';
+    base64 = 'TW9yYmkgbGVvIHJpc3VzLCBwb3J0YSBhYyBjb25zZWN0ZXR1ciBhYywgdmVzdGlidWx1bSBhdC4=';
+    path = '/repos/' + user + '/' + repo + '/contents/' + file;
+
+    publisher = new GitHubPublisher(token, user, repo);
   });
 
   afterEach(function () {
     nock.cleanAll();
   });
 
+  describe('retrieve', function () {
+
+    it('should retrieve the content from GitHub', function () {
+      var sha = 'abc123';
+      var mock = nock('https://api.github.com/')
+        .get(path)
+        .reply(200, {sha: sha});
+
+      return publisher.retrieve(file).then(function (result) {
+        mock.done();
+        result.should.have.property('sha', sha);
+      });
+    });
+
+    it('should handle errors from GitHub', function () {
+      var mock = nock('https://api.github.com/')
+        .get(path)
+        .reply(400, {});
+
+      return publisher.retrieve(file).then(function (result) {
+        mock.done();
+        result.should.equal(false);
+      });
+    });
+
+    it('should specify branch if provided', function () {
+      var branch = 'foo-bar';
+
+      publisher = new GitHubPublisher(token, user, repo, branch);
+
+      var mock = nock('https://api.github.com/')
+        .get(path + '?ref=' + branch)
+        .reply(200, {});
+
+      return publisher.retrieve(file).then(function (result) {
+        mock.done();
+        result.should.not.equal(false);
+      });
+    });
+
+  });
+
   describe('publish', function () {
 
     it('should send the content to GitHub', function () {
-      var token = 'abc123';
-      var user = 'username';
-      var repo = 'repo';
-      var file = 'test.txt';
-      var content = 'Morbi leo risus, porta ac consectetur ac, vestibulum at.';
-      var base64 = 'TW9yYmkgbGVvIHJpc3VzLCBwb3J0YSBhYyBjb25zZWN0ZXR1ciBhYywgdmVzdGlidWx1bSBhdC4=';
-      var path = '/repos/' + user + '/' + repo + '/contents/' + file;
-
-      var publisher = new GitHubPublisher(token, user, repo);
-
       var mock = nock('https://api.github.com/')
         .matchHeader('user-agent',    function (val) { return val && val[0] === user; })
         .matchHeader('authorization', function (val) { return val && val[0] === 'Bearer ' + token; })
@@ -52,16 +103,37 @@ describe('Formatter', function () {
       });
     });
 
+    it('should specify branch if provided', function () {
+      var branch = 'foo-bar';
+
+      publisher = new GitHubPublisher(token, user, repo, branch);
+
+      var mock = nock('https://api.github.com/')
+        .put(path, {
+          message: 'new content',
+          content: base64,
+          branch: branch,
+        })
+        .reply(201, {});
+
+      return publisher.publish(file, content).then(function (result) {
+        mock.done();
+        result.should.equal(true);
+      });
+    });
+
     it('should handle errors from GitHub', function () {
-      var token = 'abc123';
-      var user = 'username';
-      var repo = 'repo';
-      var file = 'test.txt';
-      var content = 'Morbi leo risus, porta ac consectetur ac, vestibulum at.';
-      var path = '/repos/' + user + '/' + repo + '/contents/' + file;
+      var mock = nock('https://api.github.com/')
+        .put(path)
+        .reply(400, {});
 
-      var publisher = new GitHubPublisher(token, user, repo);
+      return publisher.publish(file, content).then(function (result) {
+        mock.done();
+        result.should.equal(false);
+      });
+    });
 
+    it('should fail on duplicate error if not forced', function () {
       var mock = nock('https://api.github.com/')
         .put(path)
         .reply(422, {});
@@ -69,6 +141,31 @@ describe('Formatter', function () {
       return publisher.publish(file, content).then(function (result) {
         mock.done();
         result.should.equal(false);
+      });
+    });
+
+    it('should succeed on duplicate error if forced', function () {
+      var sha = 'abc123';
+      var mock = nock('https://api.github.com/')
+        .put(path, {
+          message: 'new content',
+          content: base64,
+        })
+        .reply(422, {})
+
+        .get(path)
+        .reply(200, {sha: sha})
+
+        .put(path, {
+          message: 'new content',
+          content: base64,
+          sha: sha,
+        })
+        .reply(201, {});
+
+      return publisher.publish(file, content, true).then(function (result) {
+        mock.done();
+        result.should.equal(true);
       });
     });
 

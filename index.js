@@ -21,6 +21,22 @@ GitHubPublisher.prototype.getBaseHeaders = function () {
   };
 };
 
+GitHubPublisher.prototype.getRequest = function (path) {
+  var options = {
+    method: 'GET',
+    headers: _.assign({}, this.getBaseHeaders()),
+  };
+
+  var url = 'https://api.github.com' + path;
+
+
+  if (this.branch) {
+    url += '?ref=' + encodeURIComponent(this.branch);
+  }
+
+  return fetch(url, options);
+};
+
 GitHubPublisher.prototype.putRequest = function (path, data) {
   var options = {
     method: 'PUT',
@@ -40,20 +56,43 @@ GitHubPublisher.prototype.base64 = function (text) {
   return data.toString('base64');
 };
 
-//TODO: Refactor args list into something more compact
-GitHubPublisher.prototype.publish = function (file, content) {
+GitHubPublisher.prototype.getPath = function (file) {
+  return '/repos/' + this.user + '/' + this.repo + '/contents/' + file;
+};
+
+GitHubPublisher.prototype.retrieve = function (file) {
+  return this.getRequest(this.getPath(file))
+    .then(function (res) {
+      return res.ok ? res.json() : false;
+    });
+};
+
+GitHubPublisher.prototype.publish = function (file, content, force) {
+  var that = this;
   var data = {
     message: 'new content',
     content: this.base64(content),
   };
 
+  if (_.isString(force)) {
+    data.sha = force;
+  }
+
   if (this.branch) {
     data.branch = this.branch;
   }
 
-  //TODO: Handle error due to lack of/invalid pre-existing sha1 hash
-  return this.putRequest('/repos/' + this.user + '/' + this.repo + '/contents/' + file, data)
+  return this.putRequest(this.getPath(file), data)
     .then(function (res) {
+      if (!res.ok && res.status === 422 && force === true) {
+        return that.retrieve(file)
+          .then(function (currentData) {
+            return currentData && currentData.sha ? that.publish(file, content, currentData.sha) : false;
+          })
+          .then(function (res) {
+            return { ok: res };
+          });
+      }
       return res.json().then(function (body) {
         return {
           ok: res.ok,
@@ -63,6 +102,8 @@ GitHubPublisher.prototype.publish = function (file, content) {
     })
     .then(function (res) {
       if (!res.ok) {
+        // Only reason to not return "res.ok" directly in the previous step is to get some debugging capabilities.
+        // This is only temporary – should either be based on a Bunyan-like logger och simplify it by removing it
         console.log('GitHub Error', res.body);
       }
       return res.ok;
