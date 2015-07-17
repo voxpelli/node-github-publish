@@ -64,6 +64,9 @@ GitHubPublisher.prototype.retrieve = function (file) {
   return this.getRequest(this.getPath(file))
     .then(function (res) {
       return res.ok ? res.json() : false;
+    })
+    .then(function (res) {
+      return res ? _.pick(res, ['content', 'sha']) : res;
     });
 };
 
