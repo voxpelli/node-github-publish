@@ -1,6 +1,6 @@
 {
   "name": "github-publish",
-  "version": "0.1.4",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Publishes a file to a repository through the GitHub Contents API",
   "author": "Pelle Wessman <pelle@kodfabrik.se> (http://kodfabrik.se/)",
