@@ -23,6 +23,8 @@ describe('Formatter', function () {
   var base64;
   var path;
   var publisher;
+  var createdSha;
+  var githubCreationResponse;
 
   beforeEach(function () {
     nock.disableNetConnect();
@@ -34,6 +36,8 @@ describe('Formatter', function () {
     content = 'Morbi leo risus, porta ac consectetur ac, vestibulum at.';
     base64 = 'TW9yYmkgbGVvIHJpc3VzLCBwb3J0YSBhYyBjb25zZWN0ZXR1ciBhYywgdmVzdGlidWx1bSBhdC4=';
     path = '/repos/' + user + '/' + repo + '/contents/' + file;
+    createdSha = '95b966ae1c166bd92f8ae7d1c313e738c731dfc3';
+    githubCreationResponse = { content : { sha : createdSha } };
 
     publisher = new GitHubPublisher(token, user, repo);
   });
@@ -95,11 +99,11 @@ describe('Formatter', function () {
           message: 'new content',
           content: base64,
         })
-        .reply(201, {});
+        .reply(201, githubCreationResponse);
 
       return publisher.publish(file, content).then(function (result) {
         mock.done();
-        result.should.equal(true);
+        result.should.equal(createdSha);
       });
     });
 
@@ -114,11 +118,11 @@ describe('Formatter', function () {
           content: base64,
           branch: branch,
         })
-        .reply(201, {});
+        .reply(201, githubCreationResponse);
 
       return publisher.publish(file, content).then(function (result) {
         mock.done();
-        result.should.equal(true);
+        result.should.equal(createdSha);
       });
     });
 
@@ -161,11 +165,11 @@ describe('Formatter', function () {
           content: base64,
           sha: sha,
         })
-        .reply(201, {});
+        .reply(201, githubCreationResponse);
 
       return publisher.publish(file, content, true).then(function (result) {
         mock.done();
-        result.should.equal(true);
+        result.should.equal(createdSha);
       });
     });
 

@@ -88,9 +88,6 @@ GitHubPublisher.prototype.publish = function (file, content, force) {
         return that.retrieve(file)
           .then(function (currentData) {
             return currentData && currentData.sha ? that.publish(file, content, currentData.sha) : false;
-          })
-          .then(function (res) {
-            return { ok: res };
           });
       }
       return res.json().then(function (body) {
@@ -101,12 +98,13 @@ GitHubPublisher.prototype.publish = function (file, content, force) {
       });
     })
     .then(function (res) {
-      if (!res.ok) {
+      if (res.ok === false) {
         // Only reason to not return "res.ok" directly in the previous step is to get some debugging capabilities.
         // This is only temporary – should either be based on a Bunyan-like logger och simplify it by removing it
         console.log('GitHub Error', res.body);
+        return false;
       }
-      return res.ok;
+      return res.ok === undefined ? res : res.body.content.sha;
     })
     .catch(function (err) {
       throw new VError(err, 'Failed to call GitHub');
