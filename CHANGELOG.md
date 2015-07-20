@@ -1,3 +1,11 @@
+### 1.0.1 (2015-07-20)
+
+
+#### Bug Fixes
+
+* **main:** explicitly support Buffers as input ([c07bd364](https://github.com/voxpelli/node-github-publish/commit/c07bd3646d2fcb29ec45b70d20043073f5204236))
+
+
 ## 1.0.0 (2015-07-17)
 
 
