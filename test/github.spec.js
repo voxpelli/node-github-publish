@@ -173,5 +173,20 @@ describe('Formatter', function () {
       });
     });
 
+    it('should accept raw buffers as content', function () {
+      var contentBuffer = new Buffer('abc123');
+
+      var mock = nock('https://api.github.com/')
+        .put(path, {
+          message: 'new content',
+          content: contentBuffer.toString('base64'),
+        })
+        .reply(201, githubCreationResponse);
+
+      return publisher.publish(file, contentBuffer).then(function () {
+        mock.done();
+      });
+    });
+
   });
 });

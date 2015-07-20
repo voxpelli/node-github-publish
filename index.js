@@ -52,7 +52,7 @@ GitHubPublisher.prototype.putRequest = function (path, data) {
 };
 
 GitHubPublisher.prototype.base64 = function (text) {
-  var data = new Buffer(text);
+  var data = text instanceof Buffer ? text : new Buffer(text);
   return data.toString('base64');
 };
 
