@@ -1,3 +1,11 @@
+## 1.1.0 (2015-07-21)
+
+
+#### Features
+
+* **main:** allow custom commit messages ([796a397c](https://github.com/voxpelli/node-github-publish/commit/796a397ce17f7b34595a53c9237f7f1d001b6b13))
+
+
 ### 1.0.1 (2015-07-20)
 
 
