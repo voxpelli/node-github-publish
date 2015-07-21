@@ -41,4 +41,10 @@ publisher.publish('_post/2015-07-17-example-post.md', 'file content').then(funct
 ## `GitHubPublisher` methods
 
 * **retrieve(filename)** – returns a `Promise` that resolves with either an object containing the `content` and `sha` of the existing file or with `false` if no such file exists in the repository
-* **publish(filename, content, [previousSha/force])** – publishes the specified `content` as the `filename` to the `repo` of the publisher object. `content` should be either a `string` or a `Buffer`. Returns a `Promise` which resolves to the `sha` of the created object on success and to `false` on failure (failure is likely caused by a collision with a pre-existing file which `sha` doesn't match the specified `previousSha`). One can send in a `previousSha` if one wants to override a previously defined file or one can send in `true` as the `previousSha` to force it to always override any pre-existing file.
+* **publish(filename, content, [options])** – publishes the specified `content` as the `filename` to the `repo` of the publisher object. `content` should be either a `string` or a `Buffer`. Returns a `Promise` which resolves to the `sha` of the created object on success and to `false` on failure (failure is likely caused by a collision with a pre-existing file, as long as one haven't specified that it should be overridden).
+
+## `publish()` options
+
+* **force** – whether to replace any pre-existing file no matter what
+* **message** – a custom commit message. Default is `new content`
+* **sha** – the sha of an existing file that one wants to replace

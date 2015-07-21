@@ -188,5 +188,22 @@ describe('Formatter', function () {
       });
     });
 
+
+    it('should allow customizeable commit messages', function () {
+      publisher = new GitHubPublisher(token, user, repo);
+
+      var mock = nock('https://api.github.com/')
+        .put(path, {
+          message: 'foobar',
+          content: base64,
+        })
+        .reply(201, githubCreationResponse);
+
+      return publisher.publish(file, content, { message: 'foobar' }).then(function (result) {
+        mock.done();
+        result.should.equal(createdSha);
+      });
+    });
+
   });
 });

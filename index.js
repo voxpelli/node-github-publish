@@ -70,15 +70,25 @@ GitHubPublisher.prototype.retrieve = function (file) {
     });
 };
 
-GitHubPublisher.prototype.publish = function (file, content, force) {
+GitHubPublisher.prototype.publish = function (file, content, options) {
   var that = this;
+
+  // Legacy support
+  if (_.isString(options)) {
+    options = { sha: options };
+  } else if (_.isBoolean(options)) {
+    options = { force: options };
+  } else {
+    options = _.extend({}, options || {});
+  }
+
   var data = {
-    message: 'new content',
+    message: options.message || 'new content',
     content: this.base64(content),
   };
 
-  if (_.isString(force)) {
-    data.sha = force;
+  if (options.sha) {
+    data.sha = options.sha;
   }
 
   if (this.branch) {
@@ -87,10 +97,12 @@ GitHubPublisher.prototype.publish = function (file, content, force) {
 
   return this.putRequest(this.getPath(file), data)
     .then(function (res) {
-      if (!res.ok && res.status === 422 && force === true) {
+      if (!res.ok && res.status === 422 && options.force === true) {
         return that.retrieve(file)
           .then(function (currentData) {
-            return currentData && currentData.sha ? that.publish(file, content, currentData.sha) : false;
+            delete options.force;
+            options.sha = currentData.sha;
+            return currentData && currentData.sha ? that.publish(file, content, options) : false;
           });
       }
       return res.json().then(function (body) {
