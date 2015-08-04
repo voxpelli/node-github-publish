@@ -6,7 +6,6 @@ var lintlovin = require('lintlovin');
 module.exports = function (grunt) {
   lintlovin.initConfig(grunt, {}, {
     enableCoverageEvent: true,
-    spaceFiles: ['!package.json'],
   });
 
   grunt.event.on('coverage', function (lcov, done) {
