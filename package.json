@@ -24,6 +24,7 @@
     "chai": "^3.0.0",
     "chai-as-promised": "^6.0.0",
     "coveralls": "^2.11.2",
+    "dependency-check": "^2.5.2",
     "eslint": "^3.4.0",
     "eslint-config-semistandard": "^7.0.0",
     "eslint-config-standard": "^6.0.0",
