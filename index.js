@@ -60,12 +60,8 @@ GitHubPublisher.prototype.getPath = function (file) {
 
 GitHubPublisher.prototype.retrieve = function (file) {
   return this.getRequest(this.getPath(file))
-    .then(function (res) {
-      return res.ok ? res.json() : false;
-    })
-    .then(function (res) {
-      return res ? { content: res.content, sha: res.sha } : res;
-    });
+    .then(res => res.ok ? res.json() : false)
+    .then(res => res ? { content: res.content, sha: res.sha } : res);
 };
 
 GitHubPublisher.prototype.publish = function (file, content, options) {
@@ -95,23 +91,22 @@ GitHubPublisher.prototype.publish = function (file, content, options) {
   }
 
   return this.putRequest(this.getPath(file), data)
-    .then(function (res) {
+    .then(res => {
       if (!res.ok && res.status === 422 && options.force === true) {
-        return that.retrieve(file)
-          .then(function (currentData) {
+        return this.retrieve(file)
+          .then(currentData => {
             delete options.force;
             options.sha = currentData.sha;
             return currentData && currentData.sha ? that.publish(file, content, options) : false;
           });
       }
-      return res.json().then(function (body) {
-        return {
+      return res.json()
+        .then(body => ({
           ok: res.ok,
           body: body
-        };
-      });
+        }));
     })
-    .then(function (res) {
+    .then(res => {
       if (res.ok === false) {
         // Only reason to not return "res.ok" directly in the previous step is to get some debugging capabilities.
         // This is only temporary – should either be based on a Bunyan-like logger och simplify it by removing it
@@ -120,9 +115,7 @@ GitHubPublisher.prototype.publish = function (file, content, options) {
       }
       return res.ok === undefined ? res : res.body.content.sha;
     })
-    .catch(function (err) {
-      throw new VError(err, 'Failed to call GitHub');
-    });
+    .catch(err => Promise.reject(new VError(err, 'Failed to call GitHub')));
 };
 
 module.exports = GitHubPublisher;
