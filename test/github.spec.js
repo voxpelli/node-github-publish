@@ -37,7 +37,7 @@ describe('Formatter', function () {
     base64 = 'TW9yYmkgbGVvIHJpc3VzLCBwb3J0YSBhYyBjb25zZWN0ZXR1ciBhYywgdmVzdGlidWx1bSBhdC4=';
     path = '/repos/' + user + '/' + repo + '/contents/' + file;
     createdSha = '95b966ae1c166bd92f8ae7d1c313e738c731dfc3';
-    githubCreationResponse = { content : { sha : createdSha } };
+    githubCreationResponse = { content: { sha: createdSha } };
 
     publisher = new GitHubPublisher(token, user, repo);
   });
@@ -47,7 +47,6 @@ describe('Formatter', function () {
   });
 
   describe('retrieve', function () {
-
     it('should retrieve the content from GitHub', function () {
       var sha = 'abc123';
       var mock = nock('https://api.github.com/')
@@ -85,19 +84,17 @@ describe('Formatter', function () {
         result.should.not.equal(false);
       });
     });
-
   });
 
   describe('publish', function () {
-
     it('should send the content to GitHub', function () {
       var mock = nock('https://api.github.com/')
-        .matchHeader('user-agent',    function (val) { return val && val[0] === user; })
+        .matchHeader('user-agent', function (val) { return val && val[0] === user; })
         .matchHeader('authorization', function (val) { return val && val[0] === 'Bearer ' + token; })
-        .matchHeader('accept',        function (val) { return val && val[0] === 'application/vnd.github.v3+json'; })
+        .matchHeader('accept', function (val) { return val && val[0] === 'application/vnd.github.v3+json'; })
         .put(path, {
           message: 'new content',
-          content: base64,
+          content: base64
         })
         .reply(201, githubCreationResponse);
 
@@ -116,7 +113,7 @@ describe('Formatter', function () {
         .put(path, {
           message: 'new content',
           content: base64,
-          branch: branch,
+          branch: branch
         })
         .reply(201, githubCreationResponse);
 
@@ -153,7 +150,7 @@ describe('Formatter', function () {
       var mock = nock('https://api.github.com/')
         .put(path, {
           message: 'new content',
-          content: base64,
+          content: base64
         })
         .reply(422, {})
 
@@ -163,7 +160,7 @@ describe('Formatter', function () {
         .put(path, {
           message: 'new content',
           content: base64,
-          sha: sha,
+          sha: sha
         })
         .reply(201, githubCreationResponse);
 
@@ -179,7 +176,7 @@ describe('Formatter', function () {
       var mock = nock('https://api.github.com/')
         .put(path, {
           message: 'new content',
-          content: contentBuffer.toString('base64'),
+          content: contentBuffer.toString('base64')
         })
         .reply(201, githubCreationResponse);
 
@@ -188,14 +185,13 @@ describe('Formatter', function () {
       });
     });
 
-
     it('should allow customizeable commit messages', function () {
       publisher = new GitHubPublisher(token, user, repo);
 
       var mock = nock('https://api.github.com/')
         .put(path, {
           message: 'foobar',
-          content: base64,
+          content: base64
         })
         .reply(201, githubCreationResponse);
 
@@ -204,6 +200,5 @@ describe('Formatter', function () {
         result.should.equal(createdSha);
       });
     });
-
   });
 });

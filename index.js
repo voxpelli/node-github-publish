@@ -16,18 +16,17 @@ GitHubPublisher.prototype.getBaseHeaders = function () {
   return {
     'authorization': 'Bearer ' + this.token,
     'accept': 'application/vnd.github.v3+json',
-    'user-agent': this.user,
+    'user-agent': this.user
   };
 };
 
 GitHubPublisher.prototype.getRequest = function (path) {
   var options = {
     method: 'GET',
-    headers: Object.assign({}, this.getBaseHeaders()),
+    headers: Object.assign({}, this.getBaseHeaders())
   };
 
   var url = 'https://api.github.com' + path;
-
 
   if (this.branch) {
     url += '?ref=' + encodeURIComponent(this.branch);
@@ -41,8 +40,8 @@ GitHubPublisher.prototype.putRequest = function (path, data) {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: Object.assign({
-      'content-type': 'application/json',
-    }, this.getBaseHeaders()),
+      'content-type': 'application/json'
+    }, this.getBaseHeaders())
   };
 
   var url = 'https://api.github.com' + path;
@@ -84,7 +83,7 @@ GitHubPublisher.prototype.publish = function (file, content, options) {
 
   var data = {
     message: options.message || 'new content',
-    content: this.base64(content),
+    content: this.base64(content)
   };
 
   if (options.sha) {
@@ -108,7 +107,7 @@ GitHubPublisher.prototype.publish = function (file, content, options) {
       return res.json().then(function (body) {
         return {
           ok: res.ok,
-          body: body,
+          body: body
         };
       });
     })
