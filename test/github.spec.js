@@ -3,9 +3,9 @@
 
 'use strict';
 
-var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
-var nock = require('nock');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const nock = require('nock');
 
 chai.use(chaiAsPromised);
 
@@ -13,18 +13,18 @@ chai.use(chaiAsPromised);
 chai.should();
 
 describe('Formatter', function () {
-  var GitHubPublisher = require('../');
+  const GitHubPublisher = require('../');
 
-  var token;
-  var user;
-  var repo;
-  var file;
-  var content;
-  var base64;
-  var path;
-  var publisher;
-  var createdSha;
-  var githubCreationResponse;
+  let token;
+  let user;
+  let repo;
+  let file;
+  let content;
+  let base64;
+  let path;
+  let publisher;
+  let createdSha;
+  let githubCreationResponse;
 
   beforeEach(function () {
     nock.disableNetConnect();
@@ -48,8 +48,8 @@ describe('Formatter', function () {
 
   describe('retrieve', function () {
     it('should retrieve the content from GitHub', function () {
-      var sha = 'abc123';
-      var mock = nock('https://api.github.com/')
+      const sha = 'abc123';
+      const mock = nock('https://api.github.com/')
         .get(path)
         .reply(200, {sha: sha});
 
@@ -60,7 +60,7 @@ describe('Formatter', function () {
     });
 
     it('should handle errors from GitHub', function () {
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .get(path)
         .reply(400, {});
 
@@ -71,11 +71,11 @@ describe('Formatter', function () {
     });
 
     it('should specify branch if provided', function () {
-      var branch = 'foo-bar';
+      const branch = 'foo-bar';
 
       publisher = new GitHubPublisher(token, user, repo, branch);
 
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .get(path + '?ref=' + branch)
         .reply(200, {});
 
@@ -88,7 +88,7 @@ describe('Formatter', function () {
 
   describe('publish', function () {
     it('should send the content to GitHub', function () {
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .matchHeader('user-agent', function (val) { return val && val[0] === user; })
         .matchHeader('authorization', function (val) { return val && val[0] === 'Bearer ' + token; })
         .matchHeader('accept', function (val) { return val && val[0] === 'application/vnd.github.v3+json'; })
@@ -105,11 +105,11 @@ describe('Formatter', function () {
     });
 
     it('should specify branch if provided', function () {
-      var branch = 'foo-bar';
+      const branch = 'foo-bar';
 
       publisher = new GitHubPublisher(token, user, repo, branch);
 
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .put(path, {
           message: 'new content',
           content: base64,
@@ -124,7 +124,7 @@ describe('Formatter', function () {
     });
 
     it('should handle errors from GitHub', function () {
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .put(path)
         .reply(400, {});
 
@@ -135,7 +135,7 @@ describe('Formatter', function () {
     });
 
     it('should fail on duplicate error if not forced', function () {
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .put(path)
         .reply(422, {});
 
@@ -146,8 +146,8 @@ describe('Formatter', function () {
     });
 
     it('should succeed on duplicate error if forced', function () {
-      var sha = 'abc123';
-      var mock = nock('https://api.github.com/')
+      const sha = 'abc123';
+      const mock = nock('https://api.github.com/')
         .put(path, {
           message: 'new content',
           content: base64
@@ -171,9 +171,9 @@ describe('Formatter', function () {
     });
 
     it('should accept raw buffers as content', function () {
-      var contentBuffer = new Buffer('abc123');
+      const contentBuffer = new Buffer('abc123');
 
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .put(path, {
           message: 'new content',
           content: contentBuffer.toString('base64')
@@ -188,7 +188,7 @@ describe('Formatter', function () {
     it('should allow customizeable commit messages', function () {
       publisher = new GitHubPublisher(token, user, repo);
 
-      var mock = nock('https://api.github.com/')
+      const mock = nock('https://api.github.com/')
         .put(path, {
           message: 'foobar',
           content: base64

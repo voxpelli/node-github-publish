@@ -2,10 +2,10 @@
 
 'use strict';
 
-var fetch = require('node-fetch');
-var VError = require('verror');
+const fetch = require('node-fetch');
+const VError = require('verror');
 
-var GitHubPublisher = function (token, user, repo, branch) {
+const GitHubPublisher = function (token, user, repo, branch) {
   this.token = token;
   this.user = user;
   this.repo = repo;
@@ -21,12 +21,12 @@ GitHubPublisher.prototype.getBaseHeaders = function () {
 };
 
 GitHubPublisher.prototype.getRequest = function (path) {
-  var options = {
+  const options = {
     method: 'GET',
     headers: Object.assign({}, this.getBaseHeaders())
   };
 
-  var url = 'https://api.github.com' + path;
+  let url = 'https://api.github.com' + path;
 
   if (this.branch) {
     url += '?ref=' + encodeURIComponent(this.branch);
@@ -36,7 +36,7 @@ GitHubPublisher.prototype.getRequest = function (path) {
 };
 
 GitHubPublisher.prototype.putRequest = function (path, data) {
-  var options = {
+  const options = {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: Object.assign({
@@ -44,13 +44,13 @@ GitHubPublisher.prototype.putRequest = function (path, data) {
     }, this.getBaseHeaders())
   };
 
-  var url = 'https://api.github.com' + path;
+  const url = 'https://api.github.com' + path;
 
   return fetch(url, options);
 };
 
 GitHubPublisher.prototype.base64 = function (text) {
-  var data = text instanceof Buffer ? text : new Buffer(text);
+  const data = text instanceof Buffer ? text : new Buffer(text);
   return data.toString('base64');
 };
 
@@ -69,8 +69,8 @@ GitHubPublisher.prototype.retrieve = function (file) {
 };
 
 GitHubPublisher.prototype.publish = function (file, content, options) {
-  var that = this;
-  var optionsType = typeof options;
+  const that = this;
+  const optionsType = typeof options;
 
   // Legacy support
   if (optionsType === 'string') {
@@ -81,7 +81,7 @@ GitHubPublisher.prototype.publish = function (file, content, options) {
     options = Object.assign({}, options || {});
   }
 
-  var data = {
+  const data = {
     message: options.message || 'new content',
     content: this.base64(content)
   };
