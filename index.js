@@ -2,7 +2,6 @@
 
 'use strict';
 
-var _ = require('lodash');
 var fetch = require('node-fetch');
 var VError = require('verror');
 
@@ -24,7 +23,7 @@ GitHubPublisher.prototype.getBaseHeaders = function () {
 GitHubPublisher.prototype.getRequest = function (path) {
   var options = {
     method: 'GET',
-    headers: _.assign({}, this.getBaseHeaders()),
+    headers: Object.assign({}, this.getBaseHeaders()),
   };
 
   var url = 'https://api.github.com' + path;
@@ -41,7 +40,7 @@ GitHubPublisher.prototype.putRequest = function (path, data) {
   var options = {
     method: 'PUT',
     body: JSON.stringify(data),
-    headers: _.assign({
+    headers: Object.assign({
       'content-type': 'application/json',
     }, this.getBaseHeaders()),
   };
@@ -66,20 +65,21 @@ GitHubPublisher.prototype.retrieve = function (file) {
       return res.ok ? res.json() : false;
     })
     .then(function (res) {
-      return res ? _.pick(res, ['content', 'sha']) : res;
+      return res ? { content: res.content, sha: res.sha } : res;
     });
 };
 
 GitHubPublisher.prototype.publish = function (file, content, options) {
   var that = this;
+  var optionsType = typeof options;
 
   // Legacy support
-  if (_.isString(options)) {
+  if (optionsType === 'string') {
     options = { sha: options };
-  } else if (_.isBoolean(options)) {
+  } else if (optionsType === 'boolean') {
     options = { force: options };
   } else {
-    options = _.extend({}, options || {});
+    options = Object.assign({}, options || {});
   }
 
   var data = {
