@@ -1,3 +1,9 @@
+## 3.0.0 (2018-01-03)
+
+* **Breaking change:** Old `retrieve()` is now `retrieveRaw()` and new `retrieve()` returns mimicks `publish()` in that it returns the decoded content
+* **Improvements:** Updated dev dependencies
+* **Improvements:** Updated Travis test targets
+
 ## 2.0.0 (2016-10-23)
 
 * **Breaking change:** Now requires Node v6
