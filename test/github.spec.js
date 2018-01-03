@@ -171,7 +171,7 @@ describe('Formatter', function () {
     });
 
     it('should accept raw buffers as content', function () {
-      const contentBuffer = new Buffer('abc123');
+      const contentBuffer = Buffer.from('abc123');
 
       const mock = nock('https://api.github.com/')
         .put(path, {
