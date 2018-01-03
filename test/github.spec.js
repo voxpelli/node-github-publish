@@ -34,7 +34,7 @@ describe('Formatter', function () {
     repo = 'repo';
     file = 'test.txt';
     content = 'Morbi leo risus, porta ac consectetur ac, vestibulum at.';
-    base64 = 'TW9yYmkgbGVvIHJpc3VzLCBwb3J0YSBhYyBjb25zZWN0ZXR1ciBhYywgdmVzdGlidWx1bSBhdC4=';
+    base64 = Buffer.from(content).toString('base64');
     path = '/repos/' + user + '/' + repo + '/contents/' + file;
     createdSha = '95b966ae1c166bd92f8ae7d1c313e738c731dfc3';
     githubCreationResponse = { content: { sha: createdSha } };
@@ -51,10 +51,11 @@ describe('Formatter', function () {
       const sha = 'abc123';
       const mock = nock('https://api.github.com/')
         .get(path)
-        .reply(200, {sha: sha});
+        .reply(200, { content: base64, sha });
 
       return publisher.retrieve(file).then(function (result) {
         mock.done();
+        result.should.have.property('content', content);
         result.should.have.property('sha', sha);
       });
     });

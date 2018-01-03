@@ -54,14 +54,25 @@ GitHubPublisher.prototype.base64 = function (text) {
   return data.toString('base64');
 };
 
+GitHubPublisher.prototype.base64decode = function (text) {
+  return Buffer.from(text, 'base64').toString('utf8');
+};
+
 GitHubPublisher.prototype.getPath = function (file) {
   return '/repos/' + this.user + '/' + this.repo + '/contents/' + file;
 };
 
-GitHubPublisher.prototype.retrieve = function (file) {
+GitHubPublisher.prototype.retrieveRaw = function (file) {
   return this.getRequest(this.getPath(file))
     .then(res => res.ok ? res.json() : false)
     .then(res => res ? { content: res.content, sha: res.sha } : res);
+};
+
+GitHubPublisher.prototype.retrieve = function (file) {
+  return this.retrieveRaw(file).then(result => result ? {
+    content: result.content ? this.base64decode(result.content) : undefined,
+    sha: result.sha
+  } : result);
 };
 
 GitHubPublisher.prototype.publish = function (file, content, options) {
