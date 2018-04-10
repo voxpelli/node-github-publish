@@ -12,6 +12,68 @@ chai.use(chaiAsPromised);
 // var should = chai.should();
 chai.should();
 
+describe('Initialization', function () {
+  const GitHubPublisher = require('../');
+
+  let token;
+  let file;
+  let content;
+  let base64;
+
+  beforeEach(function () {
+    nock.disableNetConnect();
+
+    token = 'abc123';
+    file = 'test.txt';
+    content = 'Morbi leo risus, porta ac consectetur ac, vestibulum at.';
+    base64 = Buffer.from(content).toString('base64');
+  });
+
+  afterEach(function () {
+    nock.cleanAll();
+  });
+
+  it('should create same-user repo instance', function () {
+    const sha = 'xyz000';
+    const user = 'self';
+    const repo = 'code-repo';
+    const path = '/repos/' + user + '/' + repo + '/contents/' + file;
+    const publisher = new GitHubPublisher(token, user, repo);
+    publisher.should.have.property('user', user);
+    publisher.should.have.property('repo', user + '/' + repo);
+
+    const mock = nock('https://api.github.com/')
+      .get(path)
+      .reply(200, { content: base64, sha });
+
+    return publisher.retrieve(file).then(function (result) {
+      mock.done();
+      result.should.have.property('content', content);
+      result.should.have.property('sha', sha);
+    });
+  });
+
+  it('should create other-user repo instance', function () {
+    const sha = 'xyz001';
+    const user = 'self';
+    const repo = 'other-user/code-repo';
+    const path = '/repos/' + repo + '/contents/' + file;
+    const publisher = new GitHubPublisher(token, user, repo);
+    publisher.should.have.property('user', user);
+    publisher.should.have.property('repo', repo);
+
+    const mock = nock('https://api.github.com/')
+      .get(path)
+      .reply(200, { content: base64, sha });
+
+    return publisher.retrieve(file).then(function (result) {
+      mock.done();
+      result.should.have.property('content', content);
+      result.should.have.property('sha', sha);
+    });
+  });
+});
+
 describe('Formatter', function () {
   const GitHubPublisher = require('../');
 
