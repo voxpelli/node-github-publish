@@ -39,7 +39,6 @@
     "nock": "^9.0.0"
   },
   "dependencies": {
-    "encoding": "^0.1.12",
     "node-fetch": "^2.1.2",
     "verror": "^1.6.0"
   }
