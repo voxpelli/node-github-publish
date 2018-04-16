@@ -8,7 +8,11 @@ const VError = require('verror');
 const GitHubPublisher = function (token, user, repo, branch) {
   this.token = token;
   this.user = user;
-  this.repo = repo;
+  if (repo.indexOf('/') > 0) {
+    this.repo = repo;
+  } else {
+    this.repo = user + '/' + repo;
+  }
   this.branch = branch;
 };
 
@@ -59,7 +63,7 @@ GitHubPublisher.prototype.base64decode = function (text) {
 };
 
 GitHubPublisher.prototype.getPath = function (file) {
-  return '/repos/' + this.user + '/' + this.repo + '/contents/' + file;
+  return '/repos/' + this.repo + '/contents/' + file;
 };
 
 GitHubPublisher.prototype.retrieveRaw = function (file) {
