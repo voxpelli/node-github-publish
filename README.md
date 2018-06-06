@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/voxpelli/node-github-publish.svg?branch=master)](https://travis-ci.org/voxpelli/node-github-publish)
 [![Coverage Status](https://coveralls.io/repos/voxpelli/node-github-publish/badge.svg)](https://coveralls.io/r/voxpelli/node-github-publish)
 [![Dependency Status](https://gemnasium.com/voxpelli/node-github-publish.svg)](https://gemnasium.com/voxpelli/node-github-publish)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish?ref=badge_shield)
 
 Publishes a file to a repository through the GitHub Contents API
 
@@ -48,3 +49,7 @@ publisher.publish('_post/2015-07-17-example-post.md', 'file content').then(funct
 * **force** – whether to replace any pre-existing file no matter what
 * **message** – a custom commit message. Default is `new content`
 * **sha** – the sha of an existing file that one wants to replace
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish?ref=badge_large)
