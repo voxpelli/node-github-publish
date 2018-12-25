@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 // var should = chai.should();
 chai.should();
 
-describe('Formatter', function () {
+describe('GitHubPublisher', () => {
   const GitHubPublisher = require('../');
 
   let token;
@@ -26,7 +26,7 @@ describe('Formatter', function () {
   let createdSha;
   let githubCreationResponse;
 
-  beforeEach(function () {
+  beforeEach(() => {
     nock.disableNetConnect();
 
     token = 'abc123';
@@ -42,36 +42,36 @@ describe('Formatter', function () {
     publisher = new GitHubPublisher(token, user, repo);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     nock.cleanAll();
   });
 
-  describe('retrieve', function () {
-    it('should retrieve the content from GitHub', function () {
+  describe('retrieve', () => {
+    it('should retrieve the content from GitHub', () => {
       const sha = 'abc123';
       const mock = nock('https://api.github.com/')
         .get(path)
         .reply(200, { content: base64, sha });
 
-      return publisher.retrieve(file).then(function (result) {
+      return publisher.retrieve(file).then(result => {
         mock.done();
         result.should.have.property('content', content);
         result.should.have.property('sha', sha);
       });
     });
 
-    it('should handle errors from GitHub', function () {
+    it('should handle errors from GitHub', () => {
       const mock = nock('https://api.github.com/')
         .get(path)
         .reply(400, {});
 
-      return publisher.retrieve(file).then(function (result) {
+      return publisher.retrieve(file).then(result => {
         mock.done();
         result.should.equal(false);
       });
     });
 
-    it('should specify branch if provided', function () {
+    it('should specify branch if provided', () => {
       const branch = 'foo-bar';
 
       publisher = new GitHubPublisher(token, user, repo, branch);
@@ -80,32 +80,32 @@ describe('Formatter', function () {
         .get(path + '?ref=' + branch)
         .reply(200, {});
 
-      return publisher.retrieve(file).then(function (result) {
+      return publisher.retrieve(file).then(result => {
         mock.done();
         result.should.not.equal(false);
       });
     });
   });
 
-  describe('publish', function () {
-    it('should send the content to GitHub', function () {
+  describe('publish', () => {
+    it('should send the content to GitHub', () => {
       const mock = nock('https://api.github.com/')
-        .matchHeader('user-agent', function (val) { return val && val[0] === user; })
-        .matchHeader('authorization', function (val) { return val && val[0] === 'Bearer ' + token; })
-        .matchHeader('accept', function (val) { return val && val[0] === 'application/vnd.github.v3+json'; })
+        .matchHeader('user-agent', val => val && val[0] === user)
+        .matchHeader('authorization', val => val && val[0] === 'Bearer ' + token)
+        .matchHeader('accept', val => val && val[0] === 'application/vnd.github.v3+json')
         .put(path, {
           message: 'new content',
           content: base64
         })
         .reply(201, githubCreationResponse);
 
-      return publisher.publish(file, content).then(function (result) {
+      return publisher.publish(file, content).then(result => {
         mock.done();
         result.should.equal(createdSha);
       });
     });
 
-    it('should specify branch if provided', function () {
+    it('should specify branch if provided', () => {
       const branch = 'foo-bar';
 
       publisher = new GitHubPublisher(token, user, repo, branch);
@@ -118,35 +118,35 @@ describe('Formatter', function () {
         })
         .reply(201, githubCreationResponse);
 
-      return publisher.publish(file, content).then(function (result) {
+      return publisher.publish(file, content).then(result => {
         mock.done();
         result.should.equal(createdSha);
       });
     });
 
-    it('should handle errors from GitHub', function () {
+    it('should handle errors from GitHub', () => {
       const mock = nock('https://api.github.com/')
         .put(path)
         .reply(400, {});
 
-      return publisher.publish(file, content).then(function (result) {
+      return publisher.publish(file, content).then(result => {
         mock.done();
         result.should.equal(false);
       });
     });
 
-    it('should fail on duplicate error if not forced', function () {
+    it('should fail on duplicate error if not forced', () => {
       const mock = nock('https://api.github.com/')
         .put(path)
         .reply(422, {});
 
-      return publisher.publish(file, content).then(function (result) {
+      return publisher.publish(file, content).then(result => {
         mock.done();
         result.should.equal(false);
       });
     });
 
-    it('should succeed on duplicate error if forced', function () {
+    it('should succeed on duplicate error if forced', () => {
       const sha = 'abc123';
       const mock = nock('https://api.github.com/')
         .put(path, {
@@ -165,13 +165,13 @@ describe('Formatter', function () {
         })
         .reply(201, githubCreationResponse);
 
-      return publisher.publish(file, content, true).then(function (result) {
+      return publisher.publish(file, content, true).then(result => {
         mock.done();
         result.should.equal(createdSha);
       });
     });
 
-    it('should accept raw buffers as content', function () {
+    it('should accept raw buffers as content', () => {
       const contentBuffer = Buffer.from('abc123');
 
       const mock = nock('https://api.github.com/')
@@ -181,12 +181,12 @@ describe('Formatter', function () {
         })
         .reply(201, githubCreationResponse);
 
-      return publisher.publish(file, contentBuffer).then(function () {
+      return publisher.publish(file, contentBuffer).then(() => {
         mock.done();
       });
     });
 
-    it('should allow customizeable commit messages', function () {
+    it('should allow customizeable commit messages', () => {
       publisher = new GitHubPublisher(token, user, repo);
 
       const mock = nock('https://api.github.com/')
@@ -196,7 +196,7 @@ describe('Formatter', function () {
         })
         .reply(201, githubCreationResponse);
 
-      return publisher.publish(file, content, { message: 'foobar' }).then(function (result) {
+      return publisher.publish(file, content, { message: 'foobar' }).then(result => {
         mock.done();
         result.should.equal(createdSha);
       });
