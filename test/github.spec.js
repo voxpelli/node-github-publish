@@ -156,7 +156,7 @@ describe('Formatter', function () {
         .reply(422, {})
 
         .get(path)
-        .reply(200, {sha: sha})
+        .reply(200, { sha })
 
         .put(path, {
           message: 'new content',
