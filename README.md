@@ -51,6 +51,7 @@ publisher.publish('_post/2015-07-17-example-post.md', 'file content').then(funct
 * **force** – whether to replace any pre-existing file no matter what
 * **message** – a custom commit message. Default is `new content`
 * **sha** – the sha of an existing file that one wants to replace
+* **author** – `{name, email}` of the commit author
 
 
 ## License
