@@ -14,8 +14,8 @@ const GitHubPublisher = function (token, user, repo, branch) {
 
 GitHubPublisher.prototype.getBaseHeaders = function () {
   return {
-    'authorization': 'Bearer ' + this.token,
-    'accept': 'application/vnd.github.v3+json',
+    authorization: 'Bearer ' + this.token,
+    accept: 'application/vnd.github.v3+json',
     'user-agent': this.user
   };
 };
@@ -114,7 +114,7 @@ GitHubPublisher.prototype.publish = function (file, content, options) {
       return res.json()
         .then(body => ({
           ok: res.ok,
-          body: body
+          body
         }));
     })
     .then(res => {

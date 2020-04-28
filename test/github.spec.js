@@ -114,7 +114,7 @@ describe('GitHubPublisher', () => {
         .put(path, {
           message: 'new content',
           content: base64,
-          branch: branch
+          branch
         })
         .reply(201, githubCreationResponse);
 
@@ -161,7 +161,7 @@ describe('GitHubPublisher', () => {
         .put(path, {
           message: 'new content',
           content: base64,
-          sha: sha
+          sha
         })
         .reply(201, githubCreationResponse);
 
