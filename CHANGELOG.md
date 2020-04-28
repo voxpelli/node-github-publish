@@ -1,3 +1,7 @@
+## 4.0.0-0 (2020-04-28)
+
+* **Breaking change:** Now requires Node v12 (Twice the Node version!)
+
 ## 3.0.0 (2018-01-03)
 
 * **Breaking change:** Old `retrieve()` is now `retrieveRaw()` and new `retrieve()` returns mimicks `publish()` in that it returns the decoded content
