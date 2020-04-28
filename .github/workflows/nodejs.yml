@@ -1,4 +1,4 @@
-name: Node CI
+name: Tests
 
 on: [push]
 
@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [10, 12]
+        node_version: [12, 14]
         os: [ubuntu-latest, windows-latest]
 
     steps:
@@ -16,10 +16,20 @@ jobs:
     - name: Use Node.js ${{ matrix.node_version }}
       uses: actions/setup-node@v1
       with:
-        version: ${{ matrix.node_version }}
-
-    - name: npm install, build and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm test
+        node-version: ${{ matrix.node_version }}
+    - name: npm install
+      run: npm install
+    - name: Build
+      run: npm run build
+    - name: Tests
+      run: npx run-s test:*
+    - name: Coveralls Parallel
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel: true
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
