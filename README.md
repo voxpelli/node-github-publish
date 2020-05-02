@@ -9,14 +9,17 @@
 
 Publishes a file to a repository through the GitHub Contents API
 
-## Requirements
-
-Requires at least Node.js 6.x
-
 ## Installation
 
+### NPM
 ```bash
 npm install github-publish --save
+```
+
+### Yarn
+
+```bash
+yarn add github-publish
 ```
 
 ## Current status
