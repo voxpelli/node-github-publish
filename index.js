@@ -90,6 +90,10 @@ GitHubPublisher.prototype.publish = function (file, content, options) {
 
   const data = {
     message: options.message || 'new content',
+    author: options.author ? {
+      name: options.author.name,
+      email: options.author.email
+    } : {},
     content: this.base64(content)
   };
 

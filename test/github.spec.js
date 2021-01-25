@@ -201,5 +201,31 @@ describe('GitHubPublisher', () => {
         result.should.equal(createdSha);
       });
     });
+
+    it('should allow customizeable commit authors', () => {
+      publisher = new GitHubPublisher(token, user, repo);
+
+      const mock = nock('https://api.github.com/')
+        .put(path, {
+          message: 'foobar2',
+          content: base64,
+          author: {
+            name: 'Clint',
+            email: 'clint@someone.com'
+          }
+        })
+        .reply(201, githubCreationResponse);
+
+      return publisher.publish(file, content, {
+        message: 'foobar2',
+        author: {
+          name: 'Clint',
+          email: 'clint@someone.com'
+        }
+      }).then(result => {
+        mock.done();
+        result.should.equal(createdSha);
+      });
+    });
   });
 });
