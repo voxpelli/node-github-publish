@@ -18,15 +18,11 @@
     "check:installed-check": "installed-check -i eslint",
     "check:lint": "eslint .",
     "check": "run-p check:*",
+    "prepare": "husky install",
     "sync-gh-actions": "ghat",
     "test:mocha": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter text mocha test/**/*.spec.js",
     "test-ci": "run-s test:*",
     "test": "run-s check test:*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm test"
-    }
   },
   "devDependencies": {
     "@voxpelli/eslint-config": "^4.0.0",
@@ -42,7 +38,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "ghat": "^0.14.0",
-    "husky": "^4.2.5",
+    "husky": "^7.0.0",
     "installed-check": "^3.0.0",
     "mocha": "^7.1.2",
     "nock": "^12.0.3",
