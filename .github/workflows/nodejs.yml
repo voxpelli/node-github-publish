@@ -1,35 +1,51 @@
-name: Tests
+env: {}
 
-on: [push]
+# FILE GENERATED WITH: npx ghat voxpelli/ghatemplates/nodejs
+# SOURCE: https://github.com/voxpelli/ghatemplates
+# OPTIONS: {"set":["jobs.test.strategy.matrix.node_version=[14,16,17]"]}
 
+name: Node CI
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - main
 jobs:
   test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    name: Node ${{ matrix.node_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        node_version: [12, 14]
-        os: [ubuntu-latest, windows-latest]
-
+        node_version:
+          - 14
+          - 16
+          - 17
+        os:
+          - ubuntu-latest
+          - windows-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node_version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node_version }}
-    - name: npm install
-      run: npm install
-    - name: Build
-      run: npm run build --if-present
-    - name: Tests
-      run: npx run-s test:*
-    - name: Coveralls Parallel
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel: true
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v3
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: >-
+            ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json',
+            '**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: npm install
+        run: npm install --ignore-scripts
+      - run: npm run test-ci

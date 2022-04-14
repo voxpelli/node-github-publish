@@ -1,10 +1,6 @@
 # GitHub Publish
 
-![Linting](https://github.com/voxpelli/node-github-publish/workflows/Linting/badge.svg)
-![Tests](https://github.com/voxpelli/node-github-publish/workflows/Tests/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/voxpelli/node-github-publish/badge.svg)](https://coveralls.io/r/voxpelli/node-github-publish)
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat)](https://github.com/Flet/semistandard)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish?ref=badge_shield)
 
 Publishes a file to a repository through the GitHub Contents API
 
