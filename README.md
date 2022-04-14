@@ -30,9 +30,9 @@ Currently missing support for deletes.
 ## Usage
 
 ```javascript
-var GitHubPublisher = require('github-publish');
+const GitHubPublisher = require('github-publish');
 
-var publisher = new GitHubPublisher('token123', 'voxpelli', 'voxpelli.github.com');
+const publisher = new GitHubPublisher('token123', 'voxpelli', 'voxpelli.github.com');
 
 publisher.publish('_post/2015-07-17-example-post.md', 'file content').then(function (result) {
   // If "result" is truthy then the post was successfully published
