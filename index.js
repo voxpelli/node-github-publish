@@ -1,9 +1,6 @@
-/* jshint node: true */
-
 'use strict';
 
 const fetch = require('node-fetch');
-const VError = require('verror');
 
 class GitHubPublisher {
   constructor (token, user, repo, branch) {
@@ -63,21 +60,28 @@ class GitHubPublisher {
     return '/repos/' + this.user + '/' + this.repo + '/contents/' + file;
   }
 
-  retrieveRaw (file) {
-    return this.getRequest(this.getPath(file))
-      .then(res => res.ok ? res.json() : false)
-      .then(res => res ? { content: res.content, sha: res.sha } : res);
+  async retrieveRaw (file) {
+    const res = await this.getRequest(this.getPath(file));
+
+    if (!res.ok) return false;
+
+    const { content, sha } = await res.json();
+
+    return { content, sha };
   }
 
-  retrieve (file) {
-    return this.retrieveRaw(file).then(result => result ? {
+  async retrieve (file) {
+    const result = await this.retrieveRaw(file);
+
+    if (!result) return false;
+
+    return {
       content: result.content ? this.base64decode(result.content) : undefined,
       sha: result.sha
-    } : result);
+    };
   }
 
-  publish (file, content, options) {
-    const that = this;
+  async publish (file, content, options) {
     const optionsType = typeof options;
 
     // Legacy support
@@ -102,32 +106,36 @@ class GitHubPublisher {
       data.branch = this.branch;
     }
 
-    return this.putRequest(this.getPath(file), data)
-      .then(res => {
-        if (!res.ok && res.status === 422 && options.force === true) {
-          return this.retrieve(file)
-            .then(currentData => {
-              delete options.force;
-              options.sha = currentData.sha;
-              return currentData && currentData.sha ? that.publish(file, content, options) : false;
-            });
-        }
-        return res.json()
-          .then(body => ({
-            ok: res.ok,
-            body
-          }));
-      })
-      .then(res => {
-        if (res.ok === false) {
-          // Only reason to not return "res.ok" directly in the previous step is to get some debugging capabilities.
-          // This is only temporary – should either be based on a Bunyan-like logger och simplify it by removing it
-          console.log('GitHub Error', res.body);
-          return false;
-        }
-        return res.ok === undefined ? res : res.body.content.sha;
-      })
-      .catch(err => Promise.reject(new VError(err, 'Failed to call GitHub')));
+    const res = await this.putRequest(this.getPath(file), data);
+
+    if (!res.ok && res.status === 422 && options.force === true) {
+      const currentData = await this.retrieve(file);
+
+      if (!currentData || !currentData.sha) {
+        return false;
+      }
+
+      return this.publish(file, content, {
+        ...options,
+        force: undefined,
+        sha: currentData.sha
+      });
+    }
+
+    const body = await res.json();
+
+    if (res.ok === false) {
+      // Only reason to not return "res.ok" directly in the previous step is to get some debugging capabilities.
+      // This is only temporary – should either be based on a Bunyan-like logger och simplify it by removing it
+      console.log('GitHub Error', body);
+      return false;
+    }
+
+    if (res.ok === undefined) {
+      return body;
+    }
+
+    return body.content.sha;
   }
 }
 
