@@ -1,3 +1,4 @@
 {
-  "extends": "@voxpelli"
+  "extends": "@voxpelli",
+  "root": true
 }
