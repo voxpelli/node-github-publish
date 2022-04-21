@@ -28,7 +28,7 @@
     "test": "run-s check test:*"
   },
   "devDependencies": {
-    "@voxpelli/eslint-config": "^14.0.0-3",
+    "@voxpelli/eslint-config": "^14.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
