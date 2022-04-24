@@ -1,5 +1,5 @@
 import { ErrorWithCause } from 'pony-cause';
-import { fetch } from 'undici';
+import { request } from 'undici';
 
 // FIXME: Why is there a "#private;" field exported in the types?
 export class GitHubPublisher {
@@ -35,40 +35,47 @@ export class GitHubPublisher {
 
   /**
    * @param {string} path
-   * @returns {Promise<import('undici').Response>}
+   * @returns {Promise<{ ok: boolean, json: () => Promise<unknown>, status: number }>}
    */
   async #getRequest (path) {
-    const options = {
-      method: 'GET',
-      headers: Object.assign({}, this.#getBaseHeaders())
-    };
-
     let url = 'https://api.github.com' + path;
 
     if (this.#branch) {
       url += '?ref=' + encodeURIComponent(this.#branch);
     }
 
-    return fetch(url, options);
+    const { body, statusCode } = await request(url, { headers: this.#getBaseHeaders() });
+
+    return {
+      json: /** @returns {Promise<unknown>} */ () => body.json(),
+      ok: statusCode < 300,
+      status: statusCode,
+    };
   }
 
   /**
    * @param {string} path
    * @param {Record<string,unknown>} data
-   * @returns {Promise<import('undici').Response>}
+   * @returns {Promise<{ ok: boolean, json: () => Promise<unknown>, status: number }>}
    */
   async #putRequest (path, data) {
     const options = {
-      method: 'PUT',
       body: JSON.stringify(data),
-      headers: Object.assign({
+      headers: {
+        ...this.#getBaseHeaders(),
         'content-type': 'application/json'
-      }, this.#getBaseHeaders())
+      }
     };
 
     const url = 'https://api.github.com' + path;
 
-    return fetch(url, options);
+    const { body, statusCode } = await request(url, options);
+
+    return {
+      json: /** @returns {Promise<unknown>} */ () => body.json(),
+      ok: statusCode < 300,
+      status: statusCode,
+    };
   }
 
   /**
