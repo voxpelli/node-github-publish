@@ -1,6 +1,6 @@
 # GitHub Publish
 
-[![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat)](https://github.com/Flet/semistandard)
+[![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat)](https://github.com/standard/semistandard)
 
 Publishes a file to a repository through the GitHub Contents API
 
@@ -26,7 +26,7 @@ Currently missing support for deletes.
 ## Usage
 
 ```javascript
-const GitHubPublisher = require('github-publish');
+import { GitHubPublisher } from 'github-publish';
 
 const publisher = new GitHubPublisher('token123', 'voxpelli', 'voxpelli.github.com');
 
@@ -37,7 +37,7 @@ publisher.publish('_post/2015-07-17-example-post.md', 'file content').then(funct
 
 ## Classes
 
-* **GitHubPublisher(token, username, repo)** – creates a publisher object with an [access token](https://developer.github.com/v3/#authentication) for the GitHub API, the `username` of the owner of the repository to publish to and the name of the repository itself as `repo`.
+* **GitHubPublisher(token, username, repo, [branch])** – creates a publisher object with an [access token](https://developer.github.com/v3/#authentication) for the GitHub API, the `username` of the owner of the repository to publish to and the name of the repository itself as `repo`.
 
 ## `GitHubPublisher` methods
 
@@ -50,6 +50,6 @@ publisher.publish('_post/2015-07-17-example-post.md', 'file content').then(funct
 * **message** – a custom commit message. Default is `new content`
 * **sha** – the sha of an existing file that one wants to replace
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvoxpelli%2Fnode-github-publish?ref=badge_large)

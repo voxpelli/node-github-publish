@@ -1,3 +1,11 @@
+## 4.0.0-1 (2022-04-24)
+
+* **Breaking change:** Now requires Node v14
+* **Breaking change:** Is now an ESM module ([see this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c))
+* **Breaking change:** Made private methods actually private
+* **Improvements:** Moved to `undici` from `node-fetch`and replaced `nock` with the `MockAgent` in `undici`
+* **Improvements:** Added 100% type coverage + generates type declarations for publishing
+
 ## 4.0.0-0 (2020-04-28)
 
 * **Breaking change:** Now requires Node v12 (Twice the Node version!)
