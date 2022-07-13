@@ -1,3 +1,9 @@
+## 4.0.0-3 (2022-07-13)
+
+* **Breaking change:** Now requires Node v14.18
+* **Improvements:** Update `pony-cause` to version with ESM-module
+* **Internal:** Updated dev dependencies to latest versions
+
 ## 4.0.0-2 (2022-04-24)
 
 * **Fix:** Restore Node 14 compatibility: Replaced the `fetch` implementation from `undici` with its core `request()`, since it only supports `fetch` on Node 16 and later
