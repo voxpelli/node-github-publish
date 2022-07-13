@@ -33,7 +33,6 @@
     "clean": "run-p clean:*",
     "prepare": "husky install",
     "prepublishOnly": "run-s build",
-    "sync-gh-actions": "ghat",
     "test:mocha": "c8 --reporter=lcov --reporter text mocha 'test/**/*.spec.js'",
     "test-ci": "run-s test:*",
     "test": "run-s check test:*"
@@ -60,7 +59,6 @@
     "eslint-plugin-security": "^1.5.0",
     "eslint-plugin-sort-destructure-keys": "^1.4.0",
     "eslint-plugin-unicorn": "^43.0.1",
-    "ghat": "^0.14.0",
     "husky": "^8.0.1",
     "installed-check": "^6.0.3",
     "mocha": "^10.0.0",
