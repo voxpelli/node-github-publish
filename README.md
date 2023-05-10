@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/github-publish.svg?style=flat)](https://www.npmjs.com/package/github-publish)
 [![npm downloads](https://img.shields.io/npm/dm/github-publish.svg?style=flat)](https://www.npmjs.com/package/github-publish)
-[![Module type: CJS](https://img.shields.io/badge/module%20type-cjs-brightgreen)](https://github.com/voxpelli/badges-cjs-esm)
+[![Module type: ESM](https://img.shields.io/badge/module%20type-esm-brightgreen)](https://github.com/voxpelli/badges-cjs-esm)
 [![Types in JS](https://img.shields.io/badge/types_in_js-yes-brightgreen)](https://github.com/voxpelli/types-in-js)
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/voxpelli/eslint-config)
 [![Follow @voxpelli@mastodon.social](https://img.shields.io/mastodon/follow/109247025527949675?domain=https%3A%2F%2Fmastodon.social&style=social)](https://mastodon.social/@voxpelli)
@@ -13,13 +13,7 @@ Publishes a file to a repository through the GitHub Contents API
 
 ### NPM
 ```bash
-npm install github-publish --save
-```
-
-### Yarn
-
-```bash
-yarn add github-publish
+npm install github-publish
 ```
 
 ## Current status
