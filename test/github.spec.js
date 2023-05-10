@@ -106,7 +106,7 @@ describe('GitHubPublisher', () => {
           body: JSON.stringify({
             message: 'new content',
             content: base64,
-          })
+          }),
         })
         .reply(201, githubCreationResponse);
 
@@ -128,7 +128,7 @@ describe('GitHubPublisher', () => {
             message: 'new content',
             content: base64,
             branch,
-          })
+          }),
         })
         .reply(201, githubCreationResponse);
 
@@ -167,7 +167,7 @@ describe('GitHubPublisher', () => {
           body: JSON.stringify({
             message: 'new content',
             content: base64,
-          })
+          }),
         })
         .reply(422, {});
 
@@ -183,7 +183,7 @@ describe('GitHubPublisher', () => {
             message: 'new content',
             content: base64,
             sha,
-          })
+          }),
         })
         .reply(201, githubCreationResponse);
 
@@ -201,7 +201,7 @@ describe('GitHubPublisher', () => {
           path,
           body: JSON.stringify({
             message: 'new content',
-            content: contentBuffer.toString('base64')
+            content: contentBuffer.toString('base64'),
           }),
         })
         .reply(201, githubCreationResponse);
@@ -218,7 +218,7 @@ describe('GitHubPublisher', () => {
           path,
           body: JSON.stringify({
             message: 'foobar',
-            content: base64
+            content: base64,
           }),
         })
         .reply(201, githubCreationResponse);

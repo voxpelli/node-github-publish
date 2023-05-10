@@ -29,7 +29,7 @@ export class GitHubPublisher {
     return {
       authorization: 'Bearer ' + this.#token,
       accept: 'application/vnd.github.v3+json',
-      'user-agent': this.#user
+      'user-agent': this.#user,
     };
   }
 
@@ -63,8 +63,8 @@ export class GitHubPublisher {
       body: JSON.stringify(data),
       headers: {
         ...this.#getBaseHeaders(),
-        'content-type': 'application/json'
-      }
+        'content-type': 'application/json',
+      },
     };
 
     const url = 'https://api.github.com' + path;
@@ -138,7 +138,7 @@ export class GitHubPublisher {
 
     return {
       content: result.content ? this.#base64decode(result.content) : undefined,
-      sha: result.sha
+      sha: result.sha,
     };
   }
 
@@ -173,7 +173,7 @@ export class GitHubPublisher {
       return this.publish(file, content, {
         ...options,
         force: undefined,
-        sha: currentData.sha
+        sha: currentData.sha,
       });
     }
 
