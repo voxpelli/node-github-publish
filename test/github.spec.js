@@ -25,7 +25,7 @@ describe('GitHubPublisher', () => {
   let base64;
   /** @type {string} */
   let path;
-  /** @type {import('../index').GitHubPublisher} */
+  /** @type {import('../index.js').GitHubPublisher} */
   let publisher;
   /** @type {string} */
   let createdSha;
