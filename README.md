@@ -29,9 +29,9 @@ import { GitHubPublisher } from 'github-publish';
 
 const publisher = new GitHubPublisher('token123', 'voxpelli', 'voxpelli.github.com');
 
-publisher.publish('_post/2015-07-17-example-post.md', 'file content').then(function (result) {
-  // If "result" is truthy then the post was successfully published
-});
+const result = await publisher.publish('_post/2015-07-17-example-post.md', 'file content');
+
+// If "result" is truthy then the post was successfully published
 ```
 
 ## Classes
