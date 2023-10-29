@@ -1,3 +1,8 @@
+## 5.0.0 (2023-10-29)
+
+* **Breaking change:** Now requires Node v18 (as v16 and older [has reached end-of-life](https://github.com/nodejs/Release))
+* **Internal:** Updated dev dependencies to latest versions
+
 ## 4.0.0 (2023-05-10)
 
 * **Breaking change:** Now requires Node v16 (as v14 and older [has reached end-of-life](https://github.com/nodejs/Release))
