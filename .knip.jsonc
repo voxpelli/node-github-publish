@@ -1,4 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@2/schema.json",
-  "ignoreDependencies": ["@types/mocha", "mocha"]
+  "ignoreDependencies": ["@types/mocha"]
 }
