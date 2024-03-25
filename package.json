@@ -62,8 +62,8 @@
     "knip": "^2.38.4",
     "mocha": "^10.2.0",
     "npm-run-all2": "^6.1.1",
-    "type-coverage": "^2.27.0",
-    "typescript": "~5.2.2"
+    "type-coverage": "^2.27.1",
+    "typescript": "~5.4.3"
   },
   "dependencies": {
     "pony-cause": "^2.0.0",
