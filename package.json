@@ -58,7 +58,7 @@
     "validate-conventional-commit": "^1.0.3"
   },
   "dependencies": {
-    "pony-cause": "^2.0.0",
+    "pony-cause": "^2.1.11",
     "undici": "^6.19.2"
   }
 }
