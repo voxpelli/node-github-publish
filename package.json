@@ -63,7 +63,8 @@
     "mocha": "^10.2.0",
     "npm-run-all2": "^6.1.1",
     "type-coverage": "^2.27.0",
-    "typescript": "~5.2.2"
+    "typescript": "~5.2.2",
+    "validate-conventional-commit": "^1.0.3"
   },
   "dependencies": {
     "pony-cause": "^2.0.0",
