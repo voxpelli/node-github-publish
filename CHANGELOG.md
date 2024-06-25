@@ -1,7 +1,4 @@
-## 5.0.0 (2023-10-29)
-
-* **Breaking change:** Now requires Node v18 (as v16 and older [has reached end-of-life](https://github.com/nodejs/Release))
-* **Internal:** Updated dev dependencies to latest versions
+# Changelog
 
 ## [6.0.0](https://github.com/voxpelli/node-github-publish/compare/v5.0.0...v6.0.0) (2024-06-25)
 
@@ -21,6 +18,11 @@
 * **deps:** update dev dependencies ([3975965](https://github.com/voxpelli/node-github-publish/commit/3975965ad7af3ba565626717f01c47e25be91fa9))
 * **deps:** update to neostandard based linting ([7021bf8](https://github.com/voxpelli/node-github-publish/commit/7021bf8f512401bf6a2ac6a8f032be1feb4bead8))
 * **deps:** update type dependencies ([50f9e31](https://github.com/voxpelli/node-github-publish/commit/50f9e311ba488f5fa9f560d6260291898cc3907e))
+
+## 5.0.0 (2023-10-29)
+
+* **Breaking change:** Now requires Node v18 (as v16 and older [has reached end-of-life](https://github.com/nodejs/Release))
+* **Internal:** Updated dev dependencies to latest versions
 
 ## 4.0.0 (2023-05-10)
 
