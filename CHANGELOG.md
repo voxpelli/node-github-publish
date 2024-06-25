@@ -3,6 +3,25 @@
 * **Breaking change:** Now requires Node v18 (as v16 and older [has reached end-of-life](https://github.com/nodejs/Release))
 * **Internal:** Updated dev dependencies to latest versions
 
+## [6.0.0](https://github.com/voxpelli/node-github-publish/compare/v5.0.0...v6.0.0) (2024-06-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* update undici and require node >=18.17.0
+
+### 🩹 Fixes
+
+* update pony-cause ([328e80a](https://github.com/voxpelli/node-github-publish/commit/328e80afeeee1d1e9f6b38e540ad3bd51c0c6832))
+* update undici and require node &gt;=18.17.0 ([4e21206](https://github.com/voxpelli/node-github-publish/commit/4e212060a2c12f1f34d77d453b171f9dc311c77c))
+
+
+### 🧹 Chores
+
+* **deps:** update dev dependencies ([3975965](https://github.com/voxpelli/node-github-publish/commit/3975965ad7af3ba565626717f01c47e25be91fa9))
+* **deps:** update to neostandard based linting ([7021bf8](https://github.com/voxpelli/node-github-publish/commit/7021bf8f512401bf6a2ac6a8f032be1feb4bead8))
+* **deps:** update type dependencies ([50f9e31](https://github.com/voxpelli/node-github-publish/commit/50f9e311ba488f5fa9f560d6260291898cc3907e))
+
 ## 4.0.0 (2023-05-10)
 
 * **Breaking change:** Now requires Node v16 (as v14 and older [has reached end-of-life](https://github.com/nodejs/Release))
