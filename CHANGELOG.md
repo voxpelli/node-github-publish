@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.0.1](https://github.com/voxpelli/node-github-publish/compare/v6.0.0...v6.0.1) (2024-07-15)
+
+
+### 📚 Documentation
+
+* update CHANGELOG.md ([9b2e8e4](https://github.com/voxpelli/node-github-publish/commit/9b2e8e47dbc9760f287a82864d230b728aa09f36))
+
+
+### 🧹 Chores
+
+* **deps:** update linting dependencies ([#79](https://github.com/voxpelli/node-github-publish/issues/79)) ([dab97c5](https://github.com/voxpelli/node-github-publish/commit/dab97c5b1edebf2f941c74d9a0ad7ad87685e6f5))
+
 ## [6.0.0](https://github.com/voxpelli/node-github-publish/compare/v5.0.0...v6.0.0) (2024-06-25)
 
 
