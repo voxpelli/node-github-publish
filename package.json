@@ -52,7 +52,7 @@
     "installed-check": "^9.3.0",
     "knip": "^5.26.0",
     "mocha": "^10.5.1",
-    "npm-run-all2": "^6.2.0",
+    "npm-run-all2": "^7.0.1",
     "type-coverage": "^2.29.1",
     "typescript": "~5.5.3",
     "validate-conventional-commit": "^1.0.3"
