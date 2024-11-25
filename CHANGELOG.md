@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.0.1](https://github.com/voxpelli/node-github-publish/compare/v6.0.0...v6.0.1) (2024-11-25)
+
+
+### 📚 Documentation
+
+* update CHANGELOG.md ([9b2e8e4](https://github.com/voxpelli/node-github-publish/commit/9b2e8e47dbc9760f287a82864d230b728aa09f36))
+
+
+### 🧹 Chores
+
+* **deps:** update dependency @voxpelli/eslint-config to v22 ([#102](https://github.com/voxpelli/node-github-publish/issues/102)) ([9a491c4](https://github.com/voxpelli/node-github-publish/commit/9a491c42a13755c865c8fa3f62906b16da2a7b52))
+* **deps:** update linting dependencies ([#79](https://github.com/voxpelli/node-github-publish/issues/79)) ([dab97c5](https://github.com/voxpelli/node-github-publish/commit/dab97c5b1edebf2f941c74d9a0ad7ad87685e6f5))
+* **deps:** update type dependencies ([#92](https://github.com/voxpelli/node-github-publish/issues/92)) ([8d1cb16](https://github.com/voxpelli/node-github-publish/commit/8d1cb16aa411215c313e95739e3fd924d40e8780))
+
 ## [6.0.0](https://github.com/voxpelli/node-github-publish/compare/v5.0.0...v6.0.0) (2024-06-25)
 
 
