@@ -47,15 +47,15 @@
     "c8": "^10.1.2",
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.2",
-    "eslint": "^9.7.0",
+    "eslint": "^9.16.0",
     "husky": "^9.0.11",
     "installed-check": "^9.3.0",
-    "knip": "^5.26.0",
+    "knip": "^5.38.3",
     "mocha": "^10.5.1",
     "npm-run-all2": "^6.2.0",
     "type-coverage": "^2.29.1",
     "typescript": "~5.5.3",
-    "validate-conventional-commit": "^1.0.3"
+    "validate-conventional-commit": "^1.0.4"
   },
   "dependencies": {
     "pony-cause": "^2.1.11",
